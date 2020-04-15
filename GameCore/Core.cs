@@ -20,9 +20,14 @@ namespace GameCore
             double[] picturePos = { picLat, picLong };
             double[] userPos = getPossition();
 
-
+           // double[] differenceLat = picturePos[0] - abs(userPos[0]);
+           // double[] differenceLong = picturePos[1] - abs(userPos[1]);
         }
 
+        public void UserPoints()
+        {
+
+        }
 
 
     }

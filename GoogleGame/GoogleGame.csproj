@@ -4,6 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
+    <ProjectReference Include="..\GameCore\GameCore.csproj" />
+    <ProjectReference Include="..\MapAPI\MapAPI.csproj" />
+    <ProjectReference Include="..\PhotoApi\PhotoApi.csproj" />
+  </ItemGroup>
+
 
 
 </Project>

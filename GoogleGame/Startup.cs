@@ -16,6 +16,14 @@ namespace GoogleGame
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            var api = new PhotoApi.GooglePhotoAPI();
+            var data = api.Test().Result;
+            
+            //var photodata = new PhotoApi.AlbumData().Albums;
+            //var photodata = new PhotoApi.AlbumData();
+            
+           // var photodata = api.data
+            var photo = api.GetDataPhoto(data.Albums);
         }
 
         public IConfiguration Configuration { get; }
