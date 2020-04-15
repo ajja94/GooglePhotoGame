@@ -91,7 +91,7 @@
 
           }
          async function startGame() {
-            let response = await axios.get('/api/htmlpage');
+            let response = await axios.get('/api/htmlpage/');
             gameModel = response.data;
             console.log(gameModel);
             show();

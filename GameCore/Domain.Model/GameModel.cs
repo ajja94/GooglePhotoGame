@@ -33,14 +33,12 @@ namespace GameCore.Domain.Model
 
         public bool Play()
         {
-
             //SetTimer();
             //GameTimer();
             GetPossition();
             CalculateDifference();
             UserPoints(poeng);
             //DateTime Starttimer = DateTime.Now;
-
             return true;
         }
         public double[] GetPossition()
@@ -51,7 +49,6 @@ namespace GameCore.Domain.Model
 
         }
 
-      
         public double CalculateDifference()
         {
            
