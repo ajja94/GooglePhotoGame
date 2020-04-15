@@ -16,10 +16,10 @@ namespace GameCore.Application.Service
             _repository = repository;
         }
 
-        public async Task<GameModel> Play(int index, Guid gameId, int gameTimer)
+        public async Task<GameModel> Play(Guid gameId)
         {
             var gameModel = await _repository.Read(gameId);
-            var hasPlayed = gameModel.Play(index);
+            //var hasPlayed = gameModel.Play();
             //gameModel.aTimer = gameTimer;
             await _repository.Update(gameModel);
             return gameModel;

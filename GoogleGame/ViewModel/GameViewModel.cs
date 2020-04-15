@@ -7,19 +7,21 @@ namespace GoogleGame.ViewModel
 {
     public class GameViewModel
     {
-        public string Id { get; }
-        public int PlayCount { get; set; }
-        public bool IsSolved { get; set; }
-        public char[] Numbers { get; set; }
-        public int GameTimer { get; set; }
+       
 
-        public GameViewModel(string id, int playCount, bool isSolved, char[] numbers, int gameTimer)
+        public Guid Id { get; }
+        public double Poeng { get;  }
+
+        public GameViewModel(Guid id ,double poeng)
         {
             Id = id;
-            PlayCount = playCount;
-            IsSolved = isSolved;
-            Numbers = numbers;
-            GameTimer = gameTimer;
+            Poeng = poeng;
+            //PlayCount = playCount;
+            //IsSolved = isSolved;
+            //Numbers = numbers;
+            //GameTimer = gameTimer;
         }
+
+       
     }
 }

@@ -67,17 +67,19 @@
 
     >
     <script>
+        let gameModel;
           var map;
         var image = `<img src="https://www.ht.no/incoming/article14731252.ece/qxoh2g/ALTERNATES/w980-default/16KUL%20vinnerbildet.jpg">`;
-            show();
+            startGame();
           function show() {
 
               document.getElementById('Main').innerHTML = `<div class="page">
-                                                               <div class="header"><h1>Header<h1></div>
+                                                               <div class="header"><h1>Header <button onclick="play()">testknapp</button><h1></div>
                                                                <div class="Photo">${image}</div>
                                                                <div id="Map">Meny</div>
                                                            </div>`;
 
+        //console.log(gameModel.poeng, gameModel.id);
           }
 
           function initMap() {
@@ -88,6 +90,18 @@
                   });
 
           }
+         async function startGame() {
+            let response = await axios.get('/api/htmlpage');
+            gameModel = response.data;
+            console.log(gameModel);
+            show();
+        }
+        async function readGame(gameId) {
+            let response = await axios.get('/api/htmlpage/' + gameId);
+            gameModel = response.data;
+            console.log(gameModel);
+            show();
+        }
 
 
           function setTimer() {
@@ -103,8 +117,8 @@
               gameModel.gameTimer++;
           }
 
-          async function play(index) {
-              const paramObj = {  };
+          async function play() {
+              const paramObj = { "gameId": gameModel.id, "gamePoeng": gameModel.poeng };
               console.log(paramObj);
               let response = await axios.put('/api/htmlpage', paramObj);
               gameModel = response.data;

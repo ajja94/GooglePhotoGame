@@ -11,6 +11,7 @@ namespace GameCore.Domain.Model
         private readonly Random _random;
         //public int aTimer;
         private int Poeng;
+        public double poeng = 0;
 
         //public int PlayCount { get; private set; }
         //public bool IsSolved => Enumerable.Range(0, _numbers.Length - 1)
@@ -30,14 +31,14 @@ namespace GameCore.Domain.Model
           
         }
 
-        public bool Play(int index)
+        public bool Play()
         {
 
             //SetTimer();
             //GameTimer();
-            //getPossition();
-            //calculateDifference();
-            //UserPoints();
+            GetPossition();
+            CalculateDifference();
+            UserPoints(poeng);
             //DateTime Starttimer = DateTime.Now;
 
             return true;
@@ -50,7 +51,7 @@ namespace GameCore.Domain.Model
 
         }
 
-        public double poeng = 0;
+      
         public double CalculateDifference()
         {
            
@@ -75,12 +76,13 @@ namespace GameCore.Domain.Model
             return poeng;
         }
 
-        public void UserPoints(double poeng)
+        public double UserPoints(double poeng)
         {
             double SumPoeng = 0;
 
             SumPoeng += poeng;
 
+            return SumPoeng;
         }
 
         //private DateTime GameTimer()
