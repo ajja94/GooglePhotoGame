@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PhotoApi;
 
 namespace GoogleGame
 {
@@ -19,14 +20,6 @@ namespace GoogleGame
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            var api = new PhotoApi.GooglePhotoAPI();
-            var data = api.Test().Result;
-            
-            //var photodata = new PhotoApi.AlbumData().Albums;
-            //var photodata = new PhotoApi.AlbumData();
-            
-           // var photodata = api.data
-            var photo = api.GetDataPhoto(data.Albums);
         }
 
         public IConfiguration Configuration { get; }
@@ -35,8 +28,10 @@ namespace GoogleGame
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IGameModelRepository, InMemoryGameModel>();
+            services.AddSingleton<IAlbumAPI, GooglePhotoAPI>();
             services.AddScoped<GameService>();
-            //services.AddRazorPages();
+            services.AddScoped<AlbumService>();
+            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

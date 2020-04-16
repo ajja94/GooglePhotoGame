@@ -8,13 +8,15 @@ using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
 using RestSharp.Serialization;
+using GameCore.Domain.Service;
+using GameCore.Domain.Model;
 
 namespace PhotoApi
 {
-    public class GooglePhotoAPI
+    public class GooglePhotoAPI : IAlbumAPI
     {
         private JwtAuthenticator token;
-        public async Task<AlbumData> Test()
+        private async Task<AlbumData> FetchAlbums()
         {
             var clientSecrets = new ClientSecrets
             {
@@ -41,7 +43,7 @@ namespace PhotoApi
 
         }
 
-        public void SkrivUtInformasjon(Album[] data)
+        private void SkrivUtInformasjon(Album[] data)
         {
 
             foreach (var album in data)
@@ -53,12 +55,9 @@ namespace PhotoApi
 
         }
 
-        public string GetDataPhoto(Album[] data)
+        private PictureAlbum GetAlbumPhotos(Album album)
         {
-            var photodata = "";
 
-            foreach (var album in data)
-            {
               //  photodata = album.MediaItemsCount[1].ToString();
 
                 var client = new RestClient("https://photoslibrary.googleapis.com");
@@ -73,22 +72,42 @@ namespace PhotoApi
                 request.AddJsonBody(json);
                 var response = client.Post(request);
                 var photos = JsonConvert.DeserializeObject<PictureAlbum>(response.Content);
-            }
-
-            return photodata;
+            return photos;
         }
 
-        //public static string SendInformation(Album[] data)
-        //{
-        //   List<string> urlListe = new List<string>;
+        public async Task<List<string>> GetAlbumNamesAsync()
+        {
+            var data = await FetchAlbums();
+            var albums = data.Albums;
+            var list = new List<string>();
+            foreach(var album in albums)
+            {
+                list.Add(album.Title);
+            }
+            return list;
+        }
 
-        //    foreach (var album in data)
-        //    {
-        //      album.ProductUrl
+        public async Task<List<PhotoModel>> GetAlbumAsync(string albumName)
+        {
+            var data = await FetchAlbums();
+            var albums = data.Albums;
+            foreach (var album in albums)
+            {
+                if (album.Title != albumName) continue;
+                var photoAlbum = GetAlbumPhotos(album);
+                var list = new List<PhotoModel>();
+                foreach(var photo in photoAlbum.Pictures)
+                {
+                    var item = new PhotoModel();
+                    item.Id = photo.id;
+                    item.Url = photo.baseUrl;
+                    item.AddCoordinatesAsString(photo.filename.Replace(".jfif", "").Replace(".png", "").Replace(".jpg", "").Replace(".jpeg", ""));
+                    list.Add(item);
+                }
 
-        //    }
-
-
-        //}
+                 return list;
+            }
+            return null;
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameCore.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,10 +13,10 @@ namespace GoogleGame.ViewModel
         public Guid Id { get; }
         public double Poeng { get;  }
 
-        public GameViewModel(Guid id ,double poeng)
+        public GameViewModel(GameModel game)
         {
-            Id = id;
-            Poeng = poeng;
+            Id = game.Id;
+            Poeng = game.Poeng;
             //PlayCount = playCount;
             //IsSolved = isSolved;
             //Numbers = numbers;

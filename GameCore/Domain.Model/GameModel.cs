@@ -7,23 +7,15 @@ namespace GameCore.Domain.Model
 {
     public class GameModel : BaseModel
     {
-       // private readonly int[] _numbers;
-        private readonly Random _random;
-        //public int aTimer;
-        private int Poeng;
-        public double poeng = 0;
+        public double Poeng = 0;
 
-        //public int PlayCount { get; private set; }
-        //public bool IsSolved => Enumerable.Range(0, _numbers.Length - 1)
-        //                                  .All(i => _numbers[i] == i + 1);
+        public List<PhotoModel> Photos { get; set; }
+        public int Index { get; set; } = 0;
 
-        //public char[] Numbers => Enumerable.Range(0, _numbers.Length)
-        //                                   .Select(i => this[i])
-        //                                   .ToArray();
-
-        public GameModel(Guid id, int poeng ) : base(id)
+        public GameModel(Guid id, int poeng, List<PhotoModel> photos ) : base(id)
         {
             Poeng = poeng;
+            Photos = photos;
         }
 
         public GameModel()
@@ -31,46 +23,43 @@ namespace GameCore.Domain.Model
           
         }
 
-        public bool Play()
+        public bool Play(Coordinates userPos)
         {
             //SetTimer();
             //GameTimer();
-            GetPossition();
-            CalculateDifference();
-            UserPoints(poeng);
+            var picturePos = GetPossition();
+            CalculateDifference(userPos);
+            UserPoints(Poeng);
             //DateTime Starttimer = DateTime.Now;
+            Index++;
             return true;
         }
-        public double[] GetPossition()
+        public Coordinates GetPossition()
         {
-            // get the pointed pos from user
-            double[] userPos = { 123, 345 };
-            return userPos;
+            //photo long lat 
+             return Photos[Index].Coordinates;
 
         }
 
-        public double CalculateDifference()
+        public double CalculateDifference(Coordinates userPos)
         {
            
-            // photo possition
-            double picLat = 124;
-            double picLong = 334;
-
+           
             // take the absolute value of possition and calc
-            double[] picturePos = { picLat, picLong };
-            double[] userPos = GetPossition();
+            var picturePos = GetPossition();
+           // double[] userPos = GetPossition();
 
-            double differenceLat = picturePos[0] - Math.Abs(userPos[0]);
-            double differenceLong = picturePos[1] - Math.Abs(userPos[1]);
+            double differenceLat = picturePos.Lat - Math.Abs(userPos.Lat);
+            double differenceLong = picturePos.Long - Math.Abs(userPos.Long);
 
            double AIAndre = Math.Pow(differenceLat, 2);
            double BIAndre = Math.Pow(differenceLong, 2);
 
            double C =  Math.Sqrt(AIAndre + BIAndre);
 
-            poeng = 1000 / C;
+            Poeng = 1000 / C;
 
-            return poeng;
+            return Poeng;
         }
 
         public double UserPoints(double poeng)

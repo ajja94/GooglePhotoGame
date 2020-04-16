@@ -26,18 +26,18 @@ namespace GoogleGame.Controllers
         }
 
         [HttpGet("{gameId}")]
-        public async Task<GameViewModel> Read(string gameId)
+        public async Task<GameViewModel> Read(Guid gameId)
         {
-            var guid = new Guid(gameId);
-            var game = await _gameService.Read(guid);
+            //var guid = new Guid(gameId);
+            var game = await _gameService.Read(gameId);
             return MapToViewModel(game);
         }
-
-        [HttpPut]
-        public async Task<GameViewModel> Play(PlayViewModel play)
+        //PlayViewModel play
+        [HttpPut("{gameId}")]
+        public async Task<GameViewModel> Play(Guid gameId, Coordinates coordinates)
         {
-            var guid = new Guid(play.GameId);
-            var game = await _gameService.Play(guid);
+            //var guid = new Guid(play.GameId);
+            var game = await _gameService.Play(gameId, coordinates);
             return MapToViewModel(game);
         }
         [HttpPut]
@@ -45,7 +45,7 @@ namespace GoogleGame.Controllers
         private static GameViewModel MapToViewModel(GameModel game)
         {
             // Finnes ferdige pakker for dette, f.eks. AutoMapper (NuGet)
-            return new GameViewModel( game.Id , game.poeng);
+            return new GameViewModel(game);
         }
     }
 }
