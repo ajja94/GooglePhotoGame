@@ -12,8 +12,8 @@ namespace GameCore.Domain.Model
         internal void AddAsString(string coordinates)
         {
             var cords = coordinates.Split(",");
-            Lat = Convert.ToDouble(cords[0]);
-            Long = Convert.ToDouble(cords[1]);
+            Lat = double.Parse(cords[0].Replace(" ", ""), System.Globalization.CultureInfo.InvariantCulture);
+            Long = double.Parse(cords[1].Replace(" ", ""), System.Globalization.CultureInfo.InvariantCulture);
         }
     }
 }

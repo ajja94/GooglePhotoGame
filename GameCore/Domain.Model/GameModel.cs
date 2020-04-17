@@ -70,6 +70,10 @@ namespace GameCore.Domain.Model
 
             return SumPoeng;
         }
+        public void AddGameAlbum(List<PhotoModel> photoModel)
+        {
+            Photos = photoModel;
+        }
 
         //private DateTime GameTimer()
         //{

@@ -12,7 +12,7 @@ namespace PhotoApi
 
     public class PictureAlbum
     {
-        public Picture[] Pictures { get; set; }
+        public Picture[] mediaItems { get; set; }
     }
 
     public class Picture

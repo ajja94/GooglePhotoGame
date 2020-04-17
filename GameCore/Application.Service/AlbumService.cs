@@ -25,5 +25,8 @@ namespace GameCore.Application.Service
 
             return await _albumAPI.GetAlbumAsync(albumName);
         }
+
+
+
     }
 }

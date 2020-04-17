@@ -16,7 +16,8 @@ namespace PhotoApi
     public class GooglePhotoAPI : IAlbumAPI
     {
         private JwtAuthenticator token;
-        private async Task<AlbumData> FetchAlbums()
+
+        private async Task Authenticate()
         {
             var clientSecrets = new ClientSecrets
             {
@@ -30,8 +31,14 @@ namespace PhotoApi
                 CancellationToken.None
             );
             var accessToken = await credential.GetAccessTokenForRequestAsync();
-            var client = new RestClient("https://photoslibrary.googleapis.com");
             token = new JwtAuthenticator(accessToken);
+            
+        }
+
+        private async Task<AlbumData> FetchAlbums()
+        {
+            if (token == null) await Authenticate();
+            var client = new RestClient("https://photoslibrary.googleapis.com");
             client.Authenticator = token;
             var request = new RestRequest("/v1/albums", DataFormat.Json);
             var response = client.Get(request);
@@ -55,12 +62,12 @@ namespace PhotoApi
 
         }
 
-        private PictureAlbum GetAlbumPhotos(Album album)
+        private async Task<PictureAlbum> GetAlbumPhotos(Album album)
         {
+            if (token == null) await Authenticate();
+            //  photodata = album.MediaItemsCount[1].ToString();
 
-              //  photodata = album.MediaItemsCount[1].ToString();
-
-                var client = new RestClient("https://photoslibrary.googleapis.com");
+            var client = new RestClient("https://photoslibrary.googleapis.com");
                 client.Authenticator = token;
                 var request = new RestRequest($"/v1/mediaItems:search", DataFormat.Json);
                 var albumRequest = new AlbumRequest()
@@ -71,11 +78,12 @@ namespace PhotoApi
                 var json = JsonConvert.SerializeObject(albumRequest);
                 request.AddJsonBody(json);
                 var response = client.Post(request);
+                var test = response.Content;
                 var photos = JsonConvert.DeserializeObject<PictureAlbum>(response.Content);
             return photos;
         }
 
-        public async Task<List<string>> GetAlbumNamesAsync()
+            public async Task<List<string>> GetAlbumNamesAsync()
         {
             var data = await FetchAlbums();
             var albums = data.Albums;
@@ -94,9 +102,9 @@ namespace PhotoApi
             foreach (var album in albums)
             {
                 if (album.Title != albumName) continue;
-                var photoAlbum = GetAlbumPhotos(album);
+                var photoAlbum = await GetAlbumPhotos(album);
                 var list = new List<PhotoModel>();
-                foreach(var photo in photoAlbum.Pictures)
+                foreach(var photo in photoAlbum.mediaItems)
                 {
                     var item = new PhotoModel();
                     item.Id = photo.id;

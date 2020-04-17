@@ -10,10 +10,12 @@ namespace GameCore.Application.Service
     public class GameService
     {
         private readonly IGameModelRepository _repository;
+        private readonly IAlbumAPI _albumAPI;
 
-        public GameService(IGameModelRepository repository)
+        public GameService(IGameModelRepository repository, IAlbumAPI albumAPI)
         {
             _repository = repository;
+            _albumAPI = albumAPI;
         }
 
         public async Task<GameModel> Play(Guid gameId, Coordinates coordinates)
@@ -26,9 +28,10 @@ namespace GameCore.Application.Service
             return gameModel;
         }
 
-        public async Task<GameModel> StartGame()
+        public async Task<GameModel> StartGame(string album)
         {
             var gameModel = new GameModel();
+            gameModel.AddGameAlbum(await _albumAPI.GetAlbumAsync(album));
             await _repository.Create(gameModel);
             return gameModel;
         }

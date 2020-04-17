@@ -12,11 +12,13 @@ namespace GoogleGame.ViewModel
 
         public Guid Id { get; }
         public double Poeng { get;  }
+        public string photoUrl { get; set; }
 
         public GameViewModel(GameModel game)
         {
             Id = game.Id;
             Poeng = game.Poeng;
+            photoUrl = game.Photos[game.Index].Url;
             //PlayCount = playCount;
             //IsSolved = isSolved;
             //Numbers = numbers;
