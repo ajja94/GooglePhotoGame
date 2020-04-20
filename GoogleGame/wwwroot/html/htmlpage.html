@@ -165,11 +165,17 @@
                 {
                     center: { lat: 59.0250, lng: 10.0352 },
                     zoom: 12
+                });
 
                 // Create the initial InfoWindow.
                 let infoWindow = new google.maps.InfoWindow(
+<<<<<<< HEAD
                         { content: 'Click the map to get Lat/Lng!', position: myLatlng });
                     infoWindow.open(map);
+=======
+                    { content: 'Click the map to get Lat/Lng!', position: myLatlng });
+                    infoWindow.open(map),
+>>>>>>> db17ffe52c39058d990c599a23fccc07b5898627
 
                     // Configure the click listener.
                     map.addListener('click', function (mapsMouseEvent) {
@@ -184,6 +190,11 @@
 
                 }
 
+<<<<<<< HEAD
+=======
+                }
+
+>>>>>>> db17ffe52c39058d990c599a23fccc07b5898627
             async function startGame(album) {
                     let response = await axios.get(`/api/Game/${album}`);
                     gameModel.game = response.data;
