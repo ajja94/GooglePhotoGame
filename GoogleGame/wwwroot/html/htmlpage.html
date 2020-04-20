@@ -101,7 +101,10 @@
 
     <script>
         let gameModel = { game: null, albums: [], page: "initial" };
-        let myLatlng;
+        let myLatlng;// = { lat: 59.0250, lng: 10.0352 };
+        let ConvertedCoordinates;
+        let parameter;
+        //let myLatlng = { 59.0250: 10.0352 };
         var backGroundIMG;
         var map;
         var image = `<img src="https://www.ht.no/incoming/article14731252.ece/qxoh2g/ALTERNATES/w980-default/16KUL%20vinnerbildet.jpg">`;
@@ -113,12 +116,12 @@
 
             if (gameModel.page == "initial") {
                 document.getElementById('Main').innerHTML =
-                    `<div class="page">
-                                                                                               <div class="header"><h1>Welcome to the dark side<h1></div>
-                                                                                                <button class="nyttspill" id="NyttSpill" onclick="velgBy()">Nytt Spill</button>
-                                                                                                <button class="tidligereSpill" id="TidligereSpill" onclick="Next()">Tidligere Spill</button>
-                                                                                               <button class="highscore" id="HighScore" onclick="Next()">HighScore</button>
-                                                                                           </div>`;
+                                                           `<div class="page">
+                                                              <div class="header"><h1>Welcome to the dark side<h1></div>
+                                                               <button class="nyttspill" id="NyttSpill" onclick="velgBy()">Nytt Spill</button>
+                                                               <button class="tidligereSpill" id="TidligereSpill" onclick="Next()">Tidligere Spill</button>
+                                                              <button class="highscore" id="HighScore" onclick="Next()">HighScore</button>
+                                                            </div>`;
             }
 
             if (gameModel.page == "AlbumPage") {
@@ -139,17 +142,17 @@
 
                 document.getElementById('Main').innerHTML =
                     `                                       <div class="page">
-                                                                            <div class="header"><h1>Welcome to the dark side<h1></div>
-                                                                            <div class="Photo"><img src="${gameModel.game.photoUrl}"></div>
-                                                                            <div id="Map"></div>  <button onclick="Play(myLatlng)">Godkjenn posisjon</button>
-                                                                            <button id="NextPhoto" onclick="Next()">neste</button>
-                                                                        </div>`;
+                                                                <div class="header"><h1>Welcome to the dark side<h1></div>
+                                                                <div class="Photo"><img src="${gameModel.game.photoUrl}"></div>
+                                                                <div id="Map"></div>  <button onclick="play(myLatlng)">Godkjenn posisjon</button>
+                                                                <button id="NextPhoto" onclick="Next()">neste</button>
+                                                            </div>`;
                 initMap();
             }
             if (gameModel.page == "ScorePage") {
                 document.getElementById('Main').innerHTML = `<div class="page">
                                                                  <div class="header"><h1>Welcome to the dark side<h1></div>
-                                                                 <div class="Photo">{score}</div>
+                                                                 <div class="Photo">${score}</div>
                                                                  <div id="Map"></div>  
                                                                  <button id="NextPhoto" onclick="Next()">neste</button>
                                                              </div>`;
@@ -172,11 +175,12 @@
 
 
         function initMap() {
+            //myLatlng = { 59.0250: 10.0352 }
             myLatlng = { lat: 59.0250, lng: 10.0352 }
 
             map = new google.maps.Map(document.getElementById('Map'),
                 {
-                    center: { myLatlng },
+                    center: myLatlng,
                     zoom: 12
                 });
 
@@ -192,8 +196,11 @@
 
                 // Create a new InfoWindow.
                 infoWindow = new google.maps.InfoWindow({ position: mapsMouseEvent.latLng });
+                
                 infoWindow.setContent(mapsMouseEvent.latLng.toString());
+                myLatlng =  mapsMouseEvent.latLng.toString();
                 infoWindow.open(map);
+               
             });
             return myLatlng;
         }
@@ -215,13 +222,14 @@
         async function AlbumChoice() {
             spillValgt = true
         }
-        /*
+        
         async function readGame(gameId) {
-            let response = await axios.get('/api/htmlpage/' + gameId);
+            let response = await axios.get('/api/Game/' + gameId);
             gameModel = response.data;
             console.log(gameModel);
             show();
-        }*/
+        }
+
 
         //function setTimer() {
         //    var seconds = gameModel.gameTimer;
@@ -241,9 +249,10 @@
             gameModel.Poeng = response.data;
 
         }
-
+        // "gameId": gameModel.Id, 
         async function play(myLatlng) {
-            const paramObj = { "gameId": gameModel.Id, "coordinates": myLatlng };
+        convertToDoubleCoordinates(myLatlng);
+            const paramObj = {"gameId": gameModel.game.id, "coordinates": parameter };
             console.log(paramObj);
             let response = await axios.put('/api/Game', paramObj);
             gameModel = response.data;
@@ -253,6 +262,19 @@
             show();
         }
 
+        function Next() {
+            var notYet = "not yet implemented";
+            console.log(notYet);
+            
+        }
+        function convertToDoubleCoordinates(myLatlng){
+        
+            ConvertedCoordinates = myLatlng.replace('(','').replace(')','').split(',');
+            parameter = {Lat: ConvertedCoordinates[0], Long: ConvertedCoordinates[1]};
+        // parcefloat("parameter"); se på det her imorgen
+         return true;
+        }
+        
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3-7xZ-x5C3tP5N9_kJmraYFQ8MF508lI&callback=initMap" async defer></script>

@@ -23,7 +23,7 @@ namespace GameCore.Domain.Model
 
         }
 
-        public bool Play(Coordinates userPos)
+        public bool Play(Guid id, Coordinates userPos)
         {
             //SetTimer();
             //GameTimer();
@@ -99,7 +99,7 @@ namespace GameCore.Domain.Model
         //        e.SignalTime);
         //}
 
-        public int ShowScore(Guid gameId, int poeng)
+        public int ShowScore(Guid id, int poeng)
         {
             return poeng;
         }

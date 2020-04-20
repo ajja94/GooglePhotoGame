@@ -32,16 +32,16 @@ namespace GoogleGame.Controllers
             return MapToViewModel(game);
         }
 
-        //PlayViewModel play
+        //Guid gameId, Coordinates coordinates
         [HttpPut("{gameId}")]
         public async Task<GameViewModel> Play(Guid gameId, Coordinates coordinates)
         {
-            //var guid = new Guid(play.GameId);
+            //var guid = new Guid(gameId);
             var game = await _gameService.Play(gameId, coordinates);
             return MapToViewModel(game);
         }
 
-        [HttpPut]
+       
         private static GameViewModel MapToViewModel(GameModel game)
         {
             // Finnes ferdige pakker for dette, f.eks. AutoMapper (NuGet)
