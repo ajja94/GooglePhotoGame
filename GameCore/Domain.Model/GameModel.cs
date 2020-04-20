@@ -12,7 +12,7 @@ namespace GameCore.Domain.Model
         public List<PhotoModel> Photos { get; set; }
         public int Index { get; set; } = 0;
 
-        public GameModel(Guid id, int poeng, List<PhotoModel> photos ) : base(id)
+        public GameModel(Guid id, int poeng, List<PhotoModel> photos) : base(id)
         {
             Poeng = poeng;
             Photos = photos;
@@ -20,7 +20,7 @@ namespace GameCore.Domain.Model
 
         public GameModel()
         {
-          
+
         }
 
         public bool Play(Coordinates userPos)
@@ -37,25 +37,25 @@ namespace GameCore.Domain.Model
         public Coordinates GetPossition()
         {
             //photo long lat 
-             return Photos[Index].Coordinates;
+            return Photos[Index].Coordinates;
 
         }
 
         public double CalculateDifference(Coordinates userPos)
         {
-           
-           
+
+
             // take the absolute value of possition and calc
             var picturePos = GetPossition();
-           // double[] userPos = GetPossition();
+            // double[] userPos = GetPossition();
 
             double differenceLat = picturePos.Lat - Math.Abs(userPos.Lat);
             double differenceLong = picturePos.Long - Math.Abs(userPos.Long);
 
-           double AIAndre = Math.Pow(differenceLat, 2);
-           double BIAndre = Math.Pow(differenceLong, 2);
+            double AIAndre = Math.Pow(differenceLat, 2);
+            double BIAndre = Math.Pow(differenceLong, 2);
 
-           double C =  Math.Sqrt(AIAndre + BIAndre);
+            double C = Math.Sqrt(AIAndre + BIAndre);
 
             Poeng = 1000 / C;
 
@@ -80,7 +80,7 @@ namespace GameCore.Domain.Model
         //    return DateTime.Now;
         //  //  var _GameTime =DateTime.Now - Starttime;
         ////}
-        
+
 
         //private void gameTimer()
         //{

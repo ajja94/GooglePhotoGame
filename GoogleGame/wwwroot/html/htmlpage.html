@@ -101,7 +101,7 @@
 
     <script>
         let gameModel = { game: null, albums: [], page: "initial" };
-
+        let myLatlng;
         var backGroundIMG;
         var map;
         var image = `<img src="https://www.ht.no/incoming/article14731252.ece/qxoh2g/ALTERNATES/w980-default/16KUL%20vinnerbildet.jpg">`;
@@ -114,11 +114,11 @@
             if (gameModel.page == "initial") {
                 document.getElementById('Main').innerHTML =
                     `<div class="page">
-                                                                               <div class="header"><h1>Welcome to the dark side<h1></div>
-                                                                                <button class="nyttspill" id="NyttSpill" onclick="velgBy()">Nytt Spill</button>
-                                                                                <button class="tidligereSpill" id="TidligereSpill" onclick="Next()">Tidligere Spill</button>
-                                                                               <button class="highscore" id="HighScore" onclick="Next()">HighScore</button>
-                                                                           </div>`;
+                                                                                           <div class="header"><h1>Welcome to the dark side<h1></div>
+                                                                                            <button class="nyttspill" id="NyttSpill" onclick="velgBy()">Nytt Spill</button>
+                                                                                            <button class="tidligereSpill" id="TidligereSpill" onclick="Next()">Tidligere Spill</button>
+                                                                                           <button class="highscore" id="HighScore" onclick="Next()">HighScore</button>
+                                                                                       </div>`;
             }
 
             if (gameModel.page == "AlbumPage") {
@@ -127,23 +127,23 @@
 
                     alleAlbum +=
                         ` <button onclick="startGame('${album}')">${album}</button>
-                                              `;
+                                                          `;
 
                 }
                 document.getElementById('Main').innerHTML = `<div class="page">
-                                                <div class="header"><h1>Welcome to the dark side<h1></div>
+                                                            <div class="header"><h1>Welcome to the dark side<h1></div>
 
-                                                            ${alleAlbum}</div>`
+                                                                        ${alleAlbum}</div>`
             }
             if (gameModel.page == "GamePage") {
 
                 document.getElementById('Main').innerHTML =
-                    `<div class="page">
-                                                                               <div class="header"><h1>Welcome to the dark side<h1></div>
-                                                                               <div class="Photo"><img src="${gameModel.game.photoUrl}"></div>
-                                                                               <div id="Map"></div>
-                                                                               <button id="NextPhoto" onclick="Next()">neste</button>
-                                                                           </div>`;
+                    `                                       <div class="page">
+                                                                        <div class="header"><h1>Welcome to the dark side<h1></div>
+                                                                        <div class="Photo"><img src="${gameModel.game.photoUrl}"></div>
+                                                                        <div id="Map"></div>  <button onclick="Play(myLatlng)">Godkjenn posisjon</button>
+                                                                        <button id="NextPhoto" onclick="Next()">neste</button>
+                                                                    </div>`;
                 initMap();
             }
 
@@ -160,87 +160,82 @@
             show();
         }
 
+       
+
         function initMap() {
+            myLatlng = { lat: 59.0250, lng: 10.0352 }
+
             map = new google.maps.Map(document.getElementById('Map'),
                 {
-                    center: { lat: 59.0250, lng: 10.0352 },
+                    center: { myLatlng },
                     zoom: 12
                 });
 
-                // Create the initial InfoWindow.
-                let infoWindow = new google.maps.InfoWindow(
-<<<<<<< HEAD
-                        { content: 'Click the map to get Lat/Lng!', position: myLatlng });
-                    infoWindow.open(map);
-=======
-                    { content: 'Click the map to get Lat/Lng!', position: myLatlng });
-                    infoWindow.open(map),
->>>>>>> db17ffe52c39058d990c599a23fccc07b5898627
+            // Create the initial InfoWindow.
+            let infoWindow = new google.maps.InfoWindow(
+                { content: 'Click the map to get Lat/Lng!', position: myLatlng });
+            infoWindow.open(map);
 
-                    // Configure the click listener.
-                    map.addListener('click', function (mapsMouseEvent) {
-                        // Close the current InfoWindow.
-                        infoWindow.close();
+            // Configure the click listener.
+            map.addListener('click', function (mapsMouseEvent) {
+                // Close the current InfoWindow.
+                infoWindow.close();
 
-                        // Create a new InfoWindow.
-                        infoWindow = new google.maps.InfoWindow({ position: mapsMouseEvent.latLng });
-                        infoWindow.setContent(mapsMouseEvent.latLng.toString());
-                        infoWindow.open(map);
-                    });
+                // Create a new InfoWindow.
+                infoWindow = new google.maps.InfoWindow({ position: mapsMouseEvent.latLng });
+                infoWindow.setContent(mapsMouseEvent.latLng.toString());
+                infoWindow.open(map);
+            });
+            return myLatlng;
+        }
 
-                }
+        async function startGame(album) {
+            let response = await axios.get(`/api/Game/${album}`);
+            gameModel.game = response.data;
+            console.log(gameModel);
+            gameModel.page = "GamePage";
+            show();
+        }
 
-<<<<<<< HEAD
-=======
-                }
+        async function AlbumPicker() {
 
->>>>>>> db17ffe52c39058d990c599a23fccc07b5898627
-            async function startGame(album) {
-                    let response = await axios.get(`/api/Game/${album}`);
-                    gameModel.game = response.data;
-                    console.log(gameModel);
-                    gameModel.page = "GamePage";
-                    show();
-                }
+            let response = await axios.get('/api/Album');
+            gameModel.albums = response.data;
+            show();
+        }
+        async function AlbumChoice() {
+            spillValgt = true
+        }
+        /*
+        async function readGame(gameId) {
+            let response = await axios.get('/api/htmlpage/' + gameId);
+            gameModel = response.data;
+            console.log(gameModel);
+            show();
+        }*/
 
-            async function AlbumPicker() {
+        //function setTimer() {
+        //    var seconds = gameModel.gameTimer;
+        //    var minutes = 0;
+        //    while (seconds > 59) {
+        //        seconds -= 60;
+        //        minutes++;
+        //    }
+        //    if (seconds <= 9) seconds = "0" + seconds;
+        //    if (minutes <= 9) minutes = "0" + minutes;
+        //    document.getElementById('SetTimer').innerHTML = `${minutes}:${seconds}`;
+        //    gameModel.gameTimer++;
+        //}
+        //"gameCoordinates": gameModel.coordinates,
+        async function play(myLatlng) {
+            const paramObj = { "gameId": gameModel.Id, "coordinates": gameModel.coordinates  };
+            console.log(paramObj);
+            let response = await axios.put('/api/Game', paramObj);
+            gameModel = response.data;
+            console.log(gameModel);
 
-                    let response = await axios.get('/api/Album');
-                    gameModel.albums = response.data;
-                    show();
-                }
-            async function AlbumChoice() {
-                    spillValgt = true
-                }
-            /*
-            async function readGame(gameId) {
-                let response = await axios.get('/api/htmlpage/' + gameId);
-                gameModel = response.data;
-                console.log(gameModel);
-                show();
-            }*/
-
-            function setTimer() {
-                    var seconds = gameModel.gameTimer;
-                    var minutes = 0;
-                    while (seconds > 59) {
-                        seconds -= 60;
-                        minutes++;
-                    }
-                    if (seconds <= 9) seconds = "0" + seconds;
-                    if (minutes <= 9) minutes = "0" + minutes;
-                    document.getElementById('SetTimer').innerHTML = `${minutes}:${seconds}`;
-                    gameModel.gameTimer++;
-                }
-            //"gameCoordinates": gameModel.coordinates,
-            async function play() {
-                    const paramObj = { "gameId": gameModel.Id };
-                    console.log(paramObj);
-                    let response = await axios.put('/api/Game', paramObj);
-                    gameModel = response.data;
-                    console.log(gameModel);
-                    show();
-                }
+            show();
+        }
 
 
     </script>
