@@ -34,7 +34,6 @@
         div.header {
             background-color: #d1a476;
             grid-area: header;
-            
         }
 
             div.header > h1 {
@@ -66,6 +65,7 @@
             margin: 0;
             padding: 0;
         }
+
         button {
             height: 100px;
             width: 200px;
@@ -78,100 +78,97 @@
         }
 
         .nyttSpill {
-            bottom:50%;
-            left:10%;
+            bottom: 50%;
+            left: 10%;
         }
+
         .tidligereSpill {
             bottom: 50%;
             right: 10%;
         }
+
         .highscore {
             bottom: 20%;
             position: center;
         }
-
     </style>
 </head>
 <body>
 
 
     <div id="Main"></div>
-  
+
 
     <script>
-        let gameModel = {game: null, albums: [], page: "initial"};
-       
+        let gameModel = { game: null, albums: [], page: "initial" };
+
         var backGroundIMG;
-          var map;
+        var map;
         var image = `<img src="https://www.ht.no/incoming/article14731252.ece/qxoh2g/ALTERNATES/w980-default/16KUL%20vinnerbildet.jpg">`;
         var frontpageBackgroundImage = `<img class="FirstBackground" src="https://i.pinimg.com/originals/23/13/a4/2313a4583905b1bd8bfc2811c7f02487.jpg">`;
         AlbumPicker();
         show();
-       //GetAlbumNamesAsync();
-          function show() {
+        //GetAlbumNamesAsync();
+        function show() {
 
-            if(gameModel.page == "initial"){
-                  document.getElementById('Main').innerHTML =
-                                                                 `<div class="page"> 
-                                                                       <div class="header"><h1>Welcome to the dark side<h1></div>
-                                                                        <button class="nyttspill" id="NyttSpill" onclick="velgBy()">Nytt Spill</button> 
-                                                                        <button class="tidligereSpill" id="TidligereSpill" onclick="Next()">Tidligere Spill</button>
-                                                                       <button class="highscore" id="HighScore" onclick="Next()">HighScore</button>
-                                                                   </div>`;
+            if (gameModel.page == "initial") {
+                document.getElementById('Main').innerHTML =
+                    `<div class="page">
+                                                                           <div class="header"><h1>Welcome to the dark side<h1></div>
+                                                                            <button class="nyttspill" id="NyttSpill" onclick="velgBy()">Nytt Spill</button>
+                                                                            <button class="tidligereSpill" id="TidligereSpill" onclick="Next()">Tidligere Spill</button>
+                                                                           <button class="highscore" id="HighScore" onclick="Next()">HighScore</button>
+                                                                       </div>`;
             }
-            
-            if(gameModel.page == "AlbumPage")
-                {        
-                     let alleAlbum = "";
-                    for(let album of gameModel.albums)
-                    {
-                        
-                        alleAlbum += 
-                                       ` <button onclick="startGame('${album}')">${album}</button>
-                                      `;
 
-                    }
-                    document.getElementById('Main').innerHTML =`<div class="page"> 
-                                        <div class="header"><h1>Welcome to the dark side<h1></div>
-        
-                                                    ${alleAlbum}</div>`
-                }
-              if (gameModel.page == "GamePage")
-                {
-                       
-                        document.getElementById('Main').innerHTML =
-                                                                 `<div class="page">
-                                                                       <div class="header"><h1>Welcome to the dark side<h1></div>
-                                                                       <div class="Photo"><img src="${gameModel.game.photoUrl}"></div>
-                                                                       <div id="Map"></div>
-                                                                       <button id="NextPhoto" onclick="Next()">neste</button>
-                                                                   </div>`;
-                        initMap();
-                }
+            if (gameModel.page == "AlbumPage") {
+                let alleAlbum = "";
+                for (let album of gameModel.albums) {
 
-               
-          }
-        
-          
+                    alleAlbum +=
+                        ` <button onclick="startGame('${album}')">${album}</button>
+                                          `;
+
+                }
+                document.getElementById('Main').innerHTML = `<div class="page">
+                                            <div class="header"><h1>Welcome to the dark side<h1></div>
+
+                                                        ${alleAlbum}</div>`
+            }
+            if (gameModel.page == "GamePage") {
+
+                document.getElementById('Main').innerHTML =
+                    `<div class="page">
+                                                                           <div class="header"><h1>Welcome to the dark side<h1></div>
+                                                                           <div class="Photo"><img src="${gameModel.game.photoUrl}"></div>
+                                                                           <div id="Map"></div>
+                                                                           <button id="NextPhoto" onclick="Next()">neste</button>
+                                                                       </div>`;
+                initMap();
+            }
+
+
+        }
+
+
         //<button onclick="startGame()">Start</button>
         //console.log(gameModel.poeng, gameModel.id);
-          
 
-          function velgBy() {
-             gameModel.page = "AlbumPage";
-              show();
-          }
 
-          function initMap() {
-              map = new google.maps.Map(document.getElementById('Map'),
-                  {
-                      center: { lat: 59.0250, lng: 10.0352 },
-                      zoom: 12
-                  });
-          }
+        function velgBy() {
+            gameModel.page = "AlbumPage";
+            show();
+        }
 
-        async function startGame(album)
-        {
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('Map'),
+                {
+                    center: { lat: 59.0250, lng: 10.0352 },
+                    zoom: 12
+                });
+        }
+
+        async function startGame(album) {
             let response = await axios.get(`/api/Game/${album}`);
             gameModel.game = response.data;
             console.log(gameModel);
@@ -179,16 +176,14 @@
             show();
         }
 
-        async function AlbumPicker()
-        {
+        async function AlbumPicker() {
 
             let response = await axios.get('/api/Album');
             gameModel.albums = response.data;
             show();
         }
-        async function AlbumChoice()
-        {
-            spillValgt = true 
+        async function AlbumChoice() {
+            spillValgt = true
         }
         /*
         async function readGame(gameId) {
@@ -198,27 +193,27 @@
             show();
         }*/
 
-          function setTimer() {
-              var seconds = gameModel.gameTimer;
-              var minutes = 0;
-              while(seconds > 59){
-                  seconds -= 60;
-                  minutes++;
-              }
-              if(seconds <= 9) seconds = "0" + seconds;
-              if(minutes <= 9) minutes = "0" + minutes;
-              document.getElementById('SetTimer').innerHTML = `${minutes}:${seconds}`;
-              gameModel.gameTimer++;
-          }
+        function setTimer() {
+            var seconds = gameModel.gameTimer;
+            var minutes = 0;
+            while (seconds > 59) {
+                seconds -= 60;
+                minutes++;
+            }
+            if (seconds <= 9) seconds = "0" + seconds;
+            if (minutes <= 9) minutes = "0" + minutes;
+            document.getElementById('SetTimer').innerHTML = `${minutes}:${seconds}`;
+            gameModel.gameTimer++;
+        }
         //"gameCoordinates": gameModel.coordinates,
-          async function play() {
-              const paramObj = { "gameId": gameModel.Id };
-              console.log(paramObj);
-              let response = await axios.put('/api/Game', paramObj);
-              gameModel = response.data;
-              console.log(gameModel);
-              show();
-          }
+        async function play() {
+            const paramObj = { "gameId": gameModel.Id };
+            console.log(paramObj);
+            let response = await axios.put('/api/Game', paramObj);
+            gameModel = response.data;
+            console.log(gameModel);
+            show();
+        }
 
 
     </script>
