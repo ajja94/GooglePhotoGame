@@ -27,7 +27,7 @@ namespace GameCore.Domain.Model
         {
             //SetTimer();
             //GameTimer();
-            var picturePos = GetPossition();
+            //var picturePos = GetPossition();
             CalculateDifference(userPos);
             UserPoints(Poeng);
             //DateTime Starttimer = DateTime.Now;
@@ -99,5 +99,9 @@ namespace GameCore.Domain.Model
         //        e.SignalTime);
         //}
 
+        public int ShowScore(Guid gameId, in int poeng)
+        {
+            return poeng;
+        }
     }
 }

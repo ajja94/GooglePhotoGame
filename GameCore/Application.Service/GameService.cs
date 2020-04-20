@@ -40,5 +40,12 @@ namespace GameCore.Application.Service
         {
             return await _repository.Read(gameId);
         }
+
+        public async Task <GameModel> ShowScore(Guid gameId, int poeng)
+        {
+            var gameModel = await _repository.Read(gameId);
+            gameModel.ShowScore(gameId, poeng);
+            return gameModel;
+        }
     }
 }

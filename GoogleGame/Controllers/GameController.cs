@@ -47,6 +47,13 @@ namespace GoogleGame.Controllers
             // Finnes ferdige pakker for dette, f.eks. AutoMapper (NuGet)
             return new GameViewModel(game);
         }
+
+        [HttpGet]
+        private async Task<GameViewModel> ShowScore(int poeng)
+        {
+            var game = await _gameService.ShowScore(poeng);
+            return MapToViewModel(poeng);
+        }
     }
 }
 

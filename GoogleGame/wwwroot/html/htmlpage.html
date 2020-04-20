@@ -114,11 +114,11 @@
             if (gameModel.page == "initial") {
                 document.getElementById('Main').innerHTML =
                     `<div class="page">
-                                                                                           <div class="header"><h1>Welcome to the dark side<h1></div>
-                                                                                            <button class="nyttspill" id="NyttSpill" onclick="velgBy()">Nytt Spill</button>
-                                                                                            <button class="tidligereSpill" id="TidligereSpill" onclick="Next()">Tidligere Spill</button>
-                                                                                           <button class="highscore" id="HighScore" onclick="Next()">HighScore</button>
-                                                                                       </div>`;
+                                                                                               <div class="header"><h1>Welcome to the dark side<h1></div>
+                                                                                                <button class="nyttspill" id="NyttSpill" onclick="velgBy()">Nytt Spill</button>
+                                                                                                <button class="tidligereSpill" id="TidligereSpill" onclick="Next()">Tidligere Spill</button>
+                                                                                               <button class="highscore" id="HighScore" onclick="Next()">HighScore</button>
+                                                                                           </div>`;
             }
 
             if (gameModel.page == "AlbumPage") {
@@ -127,24 +127,33 @@
 
                     alleAlbum +=
                         ` <button onclick="startGame('${album}')">${album}</button>
-                                                          `;
+                                                              `;
 
                 }
                 document.getElementById('Main').innerHTML = `<div class="page">
-                                                            <div class="header"><h1>Welcome to the dark side<h1></div>
+                                                                <div class="header"><h1>Welcome to the dark side<h1></div>
 
-                                                                        ${alleAlbum}</div>`
+                                                                            ${alleAlbum}</div>`
             }
             if (gameModel.page == "GamePage") {
 
                 document.getElementById('Main').innerHTML =
                     `                                       <div class="page">
-                                                                        <div class="header"><h1>Welcome to the dark side<h1></div>
-                                                                        <div class="Photo"><img src="${gameModel.game.photoUrl}"></div>
-                                                                        <div id="Map"></div>  <button onclick="Play(myLatlng)">Godkjenn posisjon</button>
-                                                                        <button id="NextPhoto" onclick="Next()">neste</button>
-                                                                    </div>`;
+                                                                            <div class="header"><h1>Welcome to the dark side<h1></div>
+                                                                            <div class="Photo"><img src="${gameModel.game.photoUrl}"></div>
+                                                                            <div id="Map"></div>  <button onclick="Play(myLatlng)">Godkjenn posisjon</button>
+                                                                            <button id="NextPhoto" onclick="Next()">neste</button>
+                                                                        </div>`;
                 initMap();
+            }
+            if (gameModel.page == "ScorePage") {
+                document.getElementById('Main').innerHTML = `<div class="page">
+                                                                 <div class="header"><h1>Welcome to the dark side<h1></div>
+                                                                 <div class="Photo">{score}</div>
+                                                                 <div id="Map"></div>  
+                                                                 <button id="NextPhoto" onclick="Next()">neste</button>
+                                                             </div>`;
+                    initMap();
             }
 
 
@@ -160,7 +169,7 @@
             show();
         }
 
-       
+
 
         function initMap() {
             myLatlng = { lat: 59.0250, lng: 10.0352 }
