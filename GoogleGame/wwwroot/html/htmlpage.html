@@ -153,7 +153,7 @@
                                                                  <div id="Map"></div>  
                                                                  <button id="NextPhoto" onclick="Next()">neste</button>
                                                              </div>`;
-                    initMap();
+                initMap();
             }
 
 
@@ -236,13 +236,20 @@
         //    gameModel.gameTimer++;
         //}
         //"gameCoordinates": gameModel.coordinates,
+        async function ShowScore(){
+            let response = await axios.get('/api/Game');
+            gameModel.Poeng = response.data;
+
+        }
+
         async function play(myLatlng) {
             const paramObj = { "gameId": gameModel.Id, "coordinates": myLatlng };
             console.log(paramObj);
             let response = await axios.put('/api/Game', paramObj);
             gameModel = response.data;
             console.log(gameModel);
-
+            gameModel.page = "ScorePage";
+            ShowScore();
             show();
         }
 

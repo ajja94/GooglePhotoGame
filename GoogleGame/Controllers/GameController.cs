@@ -49,10 +49,10 @@ namespace GoogleGame.Controllers
         }
 
         [HttpGet]
-        private async Task<GameViewModel> ShowScore(int poeng)
+        public async Task<GameViewModel> ShowScore(Guid gameId, int poeng)
         {
-            var game = await _gameService.ShowScore(poeng);
-            return MapToViewModel(poeng);
+            var game = await _gameService.ShowScore(gameId, poeng);
+            return MapToViewModel(game);
         }
     }
 }

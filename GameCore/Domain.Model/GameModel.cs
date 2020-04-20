@@ -99,7 +99,7 @@ namespace GameCore.Domain.Model
         //        e.SignalTime);
         //}
 
-        public int ShowScore(Guid gameId, in int poeng)
+        public int ShowScore(Guid gameId, int poeng)
         {
             return poeng;
         }
