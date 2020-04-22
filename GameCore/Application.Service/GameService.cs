@@ -18,8 +18,7 @@ namespace GameCore.Application.Service
             _albumAPI = albumAPI;
         }
 
-        public async Task<GameModel> Play(Guid gameId, Coordinates coordinates)
-        {
+        public async Task<GameModel> Play(Guid gameId, Coordinates coordinates) { 
             var gameModel = await _repository.Read(gameId);
             gameModel.Play(gameId,coordinates);
             //var hasPlayed = gameModel.Play();
@@ -41,11 +40,11 @@ namespace GameCore.Application.Service
             return await _repository.Read(gameId);
         }
 
-        public async Task <GameModel> ShowScore(Guid gameId, int poeng)
-        {
-            var gameModel = await _repository.Read(gameId);
-            gameModel.ShowScore(gameId, poeng);
-            return gameModel;
-        }
+        //public async Task <GameModel> ShowScore(Guid gameId, int points)
+        //{
+        //    var gameModel = await _repository.Read(gameId);
+        //    gameModel.ShowScore(gameId, points);
+        //    return gameModel;
+        //}
     }
 }

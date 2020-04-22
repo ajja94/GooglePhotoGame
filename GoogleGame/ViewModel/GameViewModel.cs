@@ -11,14 +11,21 @@ namespace GoogleGame.ViewModel
        
 
         public Guid Id { get; }
-        public double Poeng { get;  }
+        public int Index { get; }
+        public double Points { get;  }
+        public double SumPoints { get;  }
         public string photoUrl { get; set; }
+        public int AlbumLength { get; }
+        public bool IsGameFinished { get; }
 
         public GameViewModel(GameModel game)
         {
             Id = game.Id;
-            Poeng = game.Poeng;
+            Points = game.Points;
             photoUrl = game.Photos[game.Index].Url;
+            SumPoints = game.SumPoints;
+            Index = game.Index;
+            IsGameFinished = game.IsGameFinished;
             //PlayCount = playCount;
             //IsSolved = isSolved;
             //Numbers = numbers;

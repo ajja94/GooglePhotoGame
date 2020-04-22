@@ -16,7 +16,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapAPI", "MapAPI\MapAPI.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameCore", "GameCore\GameCore.csproj", "{7BE7F882-BFD8-49F9-9B8A-80A1C5D55A48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{0EA39A87-6E6B-46F7-9E1A-877AB4054A0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "DataAccess\DataAccess.csproj", "{0EA39A87-6E6B-46F7-9E1A-877AB4054A0A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GooglePhotoGameNunitTest", "GooglePhotoGameNunitTest\GooglePhotoGameNunitTest.csproj", "{32272C15-A8D7-4052-A739-482CFF353331}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleGameSQLDb", "GoogleGameSQLDb\GoogleGameSQLDb.csproj", "{0A284CB5-AB3F-41C4-8E13-89AD83E82026}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +48,14 @@ Global
 		{0EA39A87-6E6B-46F7-9E1A-877AB4054A0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0EA39A87-6E6B-46F7-9E1A-877AB4054A0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0EA39A87-6E6B-46F7-9E1A-877AB4054A0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32272C15-A8D7-4052-A739-482CFF353331}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32272C15-A8D7-4052-A739-482CFF353331}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32272C15-A8D7-4052-A739-482CFF353331}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32272C15-A8D7-4052-A739-482CFF353331}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A284CB5-AB3F-41C4-8E13-89AD83E82026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A284CB5-AB3F-41C4-8E13-89AD83E82026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A284CB5-AB3F-41C4-8E13-89AD83E82026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A284CB5-AB3F-41C4-8E13-89AD83E82026}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

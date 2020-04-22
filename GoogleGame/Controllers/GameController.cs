@@ -48,12 +48,12 @@ namespace GoogleGame.Controllers
             return new GameViewModel(game);
         }
 
-        [HttpGet]
-        public async Task<GameViewModel> ShowScore(Guid gameId, int poeng)
-        {
-            var game = await _gameService.ShowScore(gameId, poeng);
-            return MapToViewModel(game);
-        }
+        //[HttpGet]
+        //public async Task<GameViewModel> ShowScore(Guid gameId, int poeng)
+        //{
+        //    var game = await _gameService.ShowScore(gameId, poeng);
+        //    return MapToViewModel(game);
+        //}
     }
 }
 

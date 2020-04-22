@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 <head>
     <title>Simple Map</title>
     <meta name="viewport" content="initial-scale=1.0">
@@ -7,92 +8,106 @@
     <!--@*<script src="../css/FrontPhotoGame.css"></script>*@-->
     <link rel="stylesheet" type="text/css" src="../css/FrontPhotoGame.css" />
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@700&display=swap" rel="stylesheet">
 
 
     <style>
         /*Always set the map height explicitly to define the size of the div
             * element that contains the map.*/
+        :root {
+            --brun: brown;
+        }
 
         body {
             padding: 0;
             margin: 0;
-        }
-
-        div.page {
             height: 100vh;
-            display: grid;
-            /*kan også bruke px(pixler) istede for fr(fractions)*/
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 2fr 12fr;
-            /*grid-template viser oppsett for gridden skiller horisontalt med mellomrom*/
-            grid-template-areas: 'header header' 'Photo Map';
             background-image: url(https://i.pinimg.com/originals/23/13/a4/2313a4583905b1bd8bfc2811c7f02487.jpg);
         }
 
-
+        div.page {
+            display: flex;
+            height: 90vh;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            user-select: none;
+        }
 
         div.header {
-            background-color: #d1a476;
-            grid-area: header;
+            color: white;
+            font-size: x-large;
+            font-family: 'Rubik', sans-serif;
+            font-size: xx-large;
+            text-shadow: 2px 2px #644C30;
         }
 
-            div.header > h1 {
-                color: black;
-                font-size: xx-large;
-                text-align-last: center;
-                font-family: 'Comic Sans MS';
-            }
-
-        img {
-            /*margin-left: 10%;*/
-            height: 80%;
-            width: 80%;
-            /*border-radius: 5%;*/
+        .img {
+            height: 50vh;
+            width: 35vw;
+            overflow: hidden;
+            margin: 20px;
         }
 
-        div.Photo {
-            height: 100%;
-            width: 100%;
+        div.points {
+            position: static;
+            display: flex;
+            flex-direction: row;
+            /*float: right;*/
+            /*left: 200px;*/
+            font-family: 'Rubik', sans-serif;
+            color: white;
+            font-size: 30px;
+            justify-content: right;
+            /*align-items: flex-end;*/
         }
 
-        #Map {
-            height: 80%;
-            width: 80%;
+        #point {
+            margin-left: 200px;
+            display: flex;
+            float: right;
+            justify-content: right;
         }
-        /*Optional: Makes the sample page fill the window.*/
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
+
+        div.buttonGroup {
+            display: block;
         }
 
         button {
-            height: 100px;
-            width: 200px;
-            font-size: 35px;
-            font-weight: bold;
-            /*position: fixed;
-            left: 40px;
-            bottom: 5%;*/
-            align-items: center;
+            background: none;
+            font-family: 'Rubik', sans-serif;
+            color: white;
+            border: none;
+            border-bottom: 2px solid white;
+            margin: 0px 20px;
+            transition: all 0,3s ease;
+            transform: scale(1.3);
         }
 
-        .nyttSpill {
-            bottom: 50%;
-            left: 10%;
+            button:hover {
+                cursor: pointer;
+                transform: scale(1.4);
+                border-color: #614c2d;
+            }
+
+        .gameGroup {
+            display: flex;
         }
 
-        .tidligereSpill {
-            bottom: 50%;
-            right: 10%;
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
         }
 
-        .highscore {
-            bottom: 20%;
-            position: center;
+        td, th {
+            border: 1px solid white;
+            text-align: left;
+            padding: 8px;
         }
     </style>
 </head>
+
 <body>
 
 
@@ -100,7 +115,7 @@
 
 
     <script>
-        let gameModel = { game: null, albums: [], page: "initial" };
+        let gameModel = { game: null, albums: [], page: "initial"};
         let myLatlng;// = { lat: 59.0250, lng: 10.0352 };
         let ConvertedCoordinates;
         let parameter;
@@ -117,44 +132,57 @@
             if (gameModel.page == "initial") {
                 document.getElementById('Main').innerHTML =
                                                            `<div class="page">
-                                                              <div class="header"><h1>Welcome to the dark side<h1></div>
-                                                               <button class="nyttspill" id="NyttSpill" onclick="velgBy()">Nytt Spill</button>
-                                                               <button class="tidligereSpill" id="TidligereSpill" onclick="Next()">Tidligere Spill</button>
-                                                              <button class="highscore" id="HighScore" onclick="Next()">HighScore</button>
+                                                              <div class="header"><h1>GET GEOGUESSER<h1></div>
+                                                              <div class="buttonGroup">
+                                                                    <button  onclick="chooseCity()">Nytt Spill</button>
+                                                                    <button  onclick="Next()">Tidligere Spill</button>
+                                                                    <button  onclick="Next()">HighScore</button>
+                                                              </div>
                                                             </div>`;
             }
 
             if (gameModel.page == "AlbumPage") {
-                let alleAlbum = "";
-                for (let album of gameModel.albums) {
+                let alleAlbum = '';
+                for (let album of gameModel.albums) 
+                {
 
-                    alleAlbum +=
-                        ` <button onclick="startGame('${album}')">${album}</button>
-                                                              `;
-
+                    alleAlbum += ` <button onclick="startGame('${album}')">${album}</button> `;
                 }
                 document.getElementById('Main').innerHTML = `<div class="page">
-                                                                <div class="header"><h1>Welcome to the dark side<h1></div>
+                                                                 <div class="header"><h1>CHOOSE YOUR LOCATION<h1></div>
+                                                                  <div class="buttonGroup">
 
-                                                                            ${alleAlbum}</div>`
+
+                                                                            ${alleAlbum}</div></div>`
             }
             if (gameModel.page == "GamePage") {
 
                 document.getElementById('Main').innerHTML =
                     `                                       <div class="page">
-                                                                <div class="header"><h1>Welcome to the dark side<h1></div>
-                                                                <div class="Photo"><img src="${gameModel.game.photoUrl}"></div>
-                                                                <div id="Map"></div>  <button onclick="play(myLatlng)">Godkjenn posisjon</button>
-                                                                <button id="NextPhoto" onclick="Next()">neste</button>
+                                                                <div class="header"><h1>${gameModel.albums}<h1></div>
+                                                                <div id="point" class="points">${parseInt(gameModel.game.sumPoints)}</div>
+                                                                <div class="gameGroup">
+                                                                    <img class="img" src="${gameModel.game.photoUrl}">
+                                                                    <div id="Map" class="img"></div>
+                                                                </div>
+                                                                <div class="buttonGroup">
+                                                                    <button onclick="play(myLatlng)">Godkjenn posisjon</button>
+
+                                                                </div>
                                                             </div>`;
                 initMap();
             }
-            if (gameModel.page == "ScorePage") {
+            if (gameModel.page == "HighScorePage") {
                 document.getElementById('Main').innerHTML = `<div class="page">
-                                                                 <div class="header"><h1>Welcome to the dark side<h1></div>
-                                                                 <div class="Photo">${score}</div>
-                                                                 <div id="Map"></div>  
-                                                                 <button id="NextPhoto" onclick="Next()">neste</button>
+                                                                <table>
+                                                                    <tr>
+                                                                       <th>${Place}</th>
+                                                                       <th>${UserName}</th>
+                                                                       <th>${City}</th>
+                                                                       <th>${sumPoints}</th>
+                                                                    </tr>
+                                                                    ${HighScore()}
+                                                                </table>
                                                              </div>`;
                 initMap();
             }
@@ -165,9 +193,24 @@
 
         //<button onclick="startGame()">Start</button>
         //console.log(gameModel.poeng, gameModel.id);
+        function HighScore()
+        {
+            let antall = "";
+            for (let album of gameModel.albums)
+            {
+                  antall += `
+                            <tr>
+                                <td>ab
+                            </tr>
+                            `                                          
+            }
+            return antall;
+
+        }
 
 
-        function velgBy() {
+        function chooseCity()
+        {
             gameModel.page = "AlbumPage";
             show();
         }
@@ -186,7 +229,7 @@
 
             // Create the initial InfoWindow.
             let infoWindow = new google.maps.InfoWindow(
-                { content: 'Click the map to get Lat/Lng!', position: myLatlng });
+                { content: 'Click to place marker', position: myLatlng });
             infoWindow.open(map);
 
             // Configure the click listener.
@@ -196,16 +239,18 @@
 
                 // Create a new InfoWindow.
                 infoWindow = new google.maps.InfoWindow({ position: mapsMouseEvent.latLng });
-                
+
                 infoWindow.setContent(mapsMouseEvent.latLng.toString());
-                myLatlng =  mapsMouseEvent.latLng.toString();
+                myLatlng = mapsMouseEvent.latLng.toString();
                 infoWindow.open(map);
-               
+
             });
             return myLatlng;
         }
 
-        async function startGame(album) {
+        async function startGame(album)
+        {
+            gameModel.albums = album;
             let response = await axios.get(`/api/Game/${album}`);
             gameModel.game = response.data;
             console.log(gameModel);
@@ -213,17 +258,20 @@
             show();
         }
 
-        async function AlbumPicker() {
+        async function AlbumPicker()
+        {
 
             let response = await axios.get('/api/Album');
             gameModel.albums = response.data;
             show();
         }
-        async function AlbumChoice() {
+        async function AlbumChoice()
+        {
             spillValgt = true
         }
-        
-        async function readGame(gameId) {
+
+        async function readGame(gameId)
+        {
             let response = await axios.get('/api/Game/' + gameId);
             gameModel = response.data;
             console.log(gameModel);
@@ -244,40 +292,51 @@
         //    gameModel.gameTimer++;
         //}
         //"gameCoordinates": gameModel.coordinates,
-        async function ShowScore(){
+        async function ShowScore()
+        {
             let response = await axios.get('/api/Game');
             gameModel.Poeng = response.data;
 
         }
-        // "gameId": gameModel.Id, 
-        async function play(myLatlng) {
-        convertToDoubleCoordinates(myLatlng);
-            const paramObj = {"gameId": gameModel.game.id, "coordinates": parameter };
-            console.log(paramObj);
-            let response = await axios.put('/api/Game', paramObj);
-            gameModel = response.data;
+        // "gameId": gameModel.Id,
+        async function play(myLatlng)
+        {
+            let doubleArray = convertToDoubleCoordinates(myLatlng);
+            const paramObj = { "gameId": gameModel.game.id, "coordinates": doubleArray};
+            const path = `/api/Game/${gameModel.game.id}`;
+            console.log(path);
+            let response = await axios.put(path, doubleArray);
+            //if(gameModel.game.Index <= gameModel.albums
+            gameModel.game = response.data;
             console.log(gameModel);
-            gameModel.page = "ScorePage";
-            ShowScore();
+            if(gameModel.game.isGameFinished) gameModel.page = "HighScorePage";
+            //gameModel.page = "ScorePage";
+            //ShowScore();
             show();
         }
 
-        function Next() {
-            var notYet = "not yet implemented";
-            console.log(notYet);
-            
+        //function Next()
+        //{
+        //    var notYet = "not yet implemented";
+        //    console.log(notYet);
+
+        //}
+
+        function convertToDoubleCoordinates(myLatlng)
+        {
+
+            ConvertedCoordinates = myLatlng.replace('(', '').replace(')', '').split(',');
+            let Convert = { Lat: parseFloat(ConvertedCoordinates[0]), Long: parseFloat(ConvertedCoordinates[1]) };
+            parameter = Convert;
+            // parcefloat("parameter"); se på det her imorgen
+            return parameter;
         }
-        function convertToDoubleCoordinates(myLatlng){
-        
-            ConvertedCoordinates = myLatlng.replace('(','').replace(')','').split(',');
-            parameter = {Lat: ConvertedCoordinates[0], Long: ConvertedCoordinates[1]};
-        // parcefloat("parameter"); se på det her imorgen
-         return true;
-        }
-        
+
 
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3-7xZ-x5C3tP5N9_kJmraYFQ8MF508lI&callback=initMap" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3-7xZ-x5C3tP5N9_kJmraYFQ8MF508lI&callback=initMap"
+            async defer></script>
 
 </body>
+
 </html>

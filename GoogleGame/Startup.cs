@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using GameCore.Application.Service;
 using GameCore.Domain.Service;
 using GoogleGame.Repository;
+using GoogleGameSQLDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +30,8 @@ namespace GoogleGame
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddDbContext<GoogleGameDbContext>(o =>
+            o.UseSqlServer(Configuration.GetConnectionString("MyDb")));
 
             services.AddSingleton<IGameModelRepository, InMemoryGameModel>();
             services.AddSingleton<IAlbumAPI, GooglePhotoAPI>();

@@ -50,17 +50,17 @@ namespace PhotoApi
 
         }
 
-        private void SkrivUtInformasjon(Album[] data)
-        {
+        //private void SkrivUtInformasjon(Album[] data)
+        //{
 
-            foreach (var album in data)
-            {
-                Console.WriteLine(album.Title + "\n");
-                Console.WriteLine(album.ProductUrl + "\n");
-            }
-            Console.ReadLine();
+        //    foreach (var album in data)
+        //    {
+        //        Console.WriteLine(album.Title + "\n");
+        //        Console.WriteLine(album.ProductUrl + "\n");
+        //    }
+        //    Console.ReadLine();
 
-        }
+        //}
 
         private async Task<PictureAlbum> GetAlbumPhotos(Album album)
         {

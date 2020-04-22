@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+
 namespace GameCore.Domain.Model
 {
     public class GameModel : BaseModel
     {
-        public double Poeng = 0;
-
+        public double Points = 0;
+        public double SumPoints = 0;
         public List<PhotoModel> Photos { get; set; }
         public int Index { get; set; } = 0;
+        public bool IsGameFinished { get; set; } = false;
 
-        public GameModel(Guid id, int poeng, List<PhotoModel> photos) : base(id)
+        public GameModel(Guid id, int points, int sumPoints, List<PhotoModel> photos) : base(id)
         {
-            Poeng = poeng;
+            SumPoints = sumPoints;
+            Points = points;
             Photos = photos;
         }
 
@@ -23,16 +26,18 @@ namespace GameCore.Domain.Model
 
         }
 
-        public bool Play(Guid id, Coordinates userPos)
+        public void Play(Guid id, Coordinates userPos)
         {
             //SetTimer();
             //GameTimer();
             //var picturePos = GetPossition();
+            if  (IsGameFinished) return;
             CalculateDifference(userPos);
-            UserPoints(Poeng);
+            UserPoints(Points);
             //DateTime Starttimer = DateTime.Now;
             Index++;
-            return true;
+            if (Index == Photos.Count) IsGameFinished = true;
+            //return true;
         }
         public Coordinates GetPossition()
         {
@@ -41,7 +46,7 @@ namespace GameCore.Domain.Model
 
         }
 
-        public double CalculateDifference(Coordinates userPos)
+        public void CalculateDifference(Coordinates userPos)
         {
 
 
@@ -57,24 +62,22 @@ namespace GameCore.Domain.Model
 
             double C = Math.Sqrt(AIAndre + BIAndre);
 
-            Poeng = 1000 / C;
-
-            return Poeng;
+             
+            Points = 1000 - (C*100000);
+            if(Points <= 0)
+            {
+                Points = 0;
+            }
         }
 
-        public double UserPoints(double poeng)
+        public void UserPoints(double points)
         {
-            double SumPoeng = 0;
-
-            SumPoeng += poeng;
-
-            return SumPoeng;
+            SumPoints += points;
         }
         public void AddGameAlbum(List<PhotoModel> photoModel)
         {
             Photos = photoModel;
         }
-
         //private DateTime GameTimer()
         //{
         //    return DateTime.Now;
@@ -99,9 +102,9 @@ namespace GameCore.Domain.Model
         //        e.SignalTime);
         //}
 
-        public int ShowScore(Guid id, int poeng)
-        {
-            return poeng;
-        }
+        //public int ShowScore(Guid id, int poeng)
+        //{
+        //    return poeng;
+        //}
     }
 }

@@ -6,7 +6,7 @@ namespace GameCore.Domain.Model
 {
     public class BaseModel
     {
-        public Guid Id { get; }
+        public Guid Id { get; set; }
 
         public BaseModel()
         {
