@@ -179,15 +179,8 @@
             }
             if (gameModel.page == "HighScorePage") {
                 document.getElementById('Main').innerHTML = `<div class="page">
-                                                                <table>
-                                                                    <tr>
-                                                                       <th>${Place}</th>
-                                                                       <th>${UserName}</th>
-                                                                       <th>${City}</th>
-                                                                       <th>${sumPoints}</th>
-                                                                    </tr>
-                                                                    ${HighScore()}
-                                                                </table>
+                                                               <div class="header">GG</div>
+                                                               <div class="points">${parseInt(gameModel.game.sumPoints)}</div>
                                                              </div>`;
                 initMap();
             }
@@ -201,12 +194,11 @@
         function HighScore() {
             let antall = "";
             for (let album of gameModel.albums) {
-                antall += `
-                            <tr>
-                                <td>ab
-                            </tr>
-                            `
-            }
+             /*  for( )
+                   antall += `<tr>
+                                <td>ab</td>
+                            </tr>`;
+            */}
             return antall;
 
         }

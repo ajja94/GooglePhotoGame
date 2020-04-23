@@ -13,6 +13,7 @@ namespace GameCore.Domain.Model
         public List<PhotoModel> Photos { get; set; }
         public int Index { get; set; } = 0;
         public bool IsGameFinished { get; set; } = false;
+        //public string Name { get; set; }
 
         public GameModel(Guid id, int points, int sumPoints, List<PhotoModel> photos) : base(id)
         {
@@ -31,12 +32,17 @@ namespace GameCore.Domain.Model
             //SetTimer();
             //GameTimer();
             //var picturePos = GetPossition();
-            if  (IsGameFinished) return;
+            if (IsGameFinished) return;
             CalculateDifference(userPos);
             UserPoints(Points);
+            if (Index == Photos.Count - 1)
+            {
+                IsGameFinished = true;
+                return;
+            }
             //DateTime Starttimer = DateTime.Now;
             Index++;
-            if (Index == Photos.Count) IsGameFinished = true;
+
             //return true;
         }
         public Coordinates GetPossition()
@@ -62,9 +68,9 @@ namespace GameCore.Domain.Model
 
             double C = Math.Sqrt(AIAndre + BIAndre);
 
-             
-            Points = 1000 - (C*100000);
-            if(Points <= 0)
+
+            Points = 1000 - (C * 100000);
+            if (Points <= 0)
             {
                 Points = 0;
             }

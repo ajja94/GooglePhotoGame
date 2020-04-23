@@ -6,6 +6,7 @@ using GameCore.Application.Service;
 using GameCore.Domain.Service;
 using GoogleGame.Repository;
 using GoogleGameSQLDb;
+using GoogleGameSQLDb.Db;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;

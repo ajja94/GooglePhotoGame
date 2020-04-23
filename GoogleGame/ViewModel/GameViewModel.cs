@@ -15,6 +15,7 @@ namespace GoogleGame.ViewModel
         public double Points { get;  }
         public double SumPoints { get;  }
         public string photoUrl { get; set; }
+        //public string Name { get; set; }
         public int AlbumLength { get; }
         public bool IsGameFinished { get; }
 
@@ -26,6 +27,7 @@ namespace GoogleGame.ViewModel
             SumPoints = game.SumPoints;
             Index = game.Index;
             IsGameFinished = game.IsGameFinished;
+            //Name = game.Name;
             //PlayCount = playCount;
             //IsSolved = isSolved;
             //Numbers = numbers;

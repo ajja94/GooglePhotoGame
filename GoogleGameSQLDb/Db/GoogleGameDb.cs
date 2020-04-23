@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GoogleGameSQLDb.Db
 {
-    class GoogleGameDb : IGameModelRepository
+    public class GoogleGameDb : IGameModelRepository
     {
         private GoogleGameDbContext _db;
 
@@ -31,7 +31,6 @@ namespace GoogleGameSQLDb.Db
         {
             _db.Games.Update(gameModel);
             return await _db.SaveChangesAsync();
-      
         }
     }
 }
